@@ -122,53 +122,37 @@ jobs:
           git diff --cached --quiet || git commit -m "ci: update images to ${{ steps.sha.outputs.short_sha }}"
           git push
 
-  deploy:
-  name: Deploy to Kubernetes
-  runs-on: ubuntu-latest
-  needs: update-manifest
-  if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devops')
-  environment: production
+    deploy:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    needs: update-manifest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devops')
+    environment: production
 
-  steps:
-    - name: Checkout latest branch state
-      uses: actions/checkout@v5
-      with:
-        ref: ${{ github.ref }}
-        fetch-depth: 0
+    steps:
+      - name: Checkout latest branch state
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
 
-    - name: Write kubeconfig
-      run: |
-        mkdir -p ~/.kube
-        echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > ~/.kube/config
-        chmod 600 ~/.kube/config
+      - name: Write kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
 
-    - name: Verify cluster access
-      run: kubectl cluster-info
+      - name: Verify cluster access
+        run: kubectl cluster-info
 
-    - name: Show manifest images
-      run: grep -n "image:" k8s/jerney.yaml
+      - name: Show manifest images
+        run: grep -n "image:" k8s/jerney.yaml
 
-    - name: Deploy manifest
-      run: kubectl apply -f k8s/jerney.yaml
+      - name: Deploy manifest
+        run: kubectl apply -f k8s/jerney.yaml
 
-    - name: Wait for rollouts
-      run: |
-        kubectl rollout status deployment/jerney-db -n jerney --timeout=180s
-        kubectl rollout status deployment/jerney-backend -n jerney --timeout=180s
-        kubectl rollout status deployment/jerney-frontend -n jerney --timeout=180s
-
-
-      
-
-
-
-          
-
-
-          
-
-
-
-
-
-          
+      - name: Wait for rollouts
+        run: |
+          kubectl rollout status deployment/jerney-db -n jerney --timeout=180s
+          kubectl rollout status deployment/jerney-backend -n jerney --timeout=180s
+          kubectl rollout status deployment/jerney-frontend -n jerney --timeout=180s
