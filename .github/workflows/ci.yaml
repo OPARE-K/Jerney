@@ -141,6 +141,8 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
+          echo "----- kubeconfig preview -----"
+          sed -n '1,20p' ~/.kube/config
 
       - name: Verify cluster access
         run: kubectl cluster-info
