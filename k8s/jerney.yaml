@@ -201,9 +201,9 @@ spec:
       containers:
         - name: backend
 
-          image: kbudden/jerney-backend:31513de
+          image: kbudden/jerney-backend:f912896
 
-          image: kbudden/jerney-backend:31513de
+          image: kbudden/jerney-backend:f912896
 
           ports:
             - containerPort: 5000
@@ -312,9 +312,9 @@ spec:
       containers:
         - name: frontend
 
-          image: kbudden/jerney-frontend:31513de
+          image: kbudden/jerney-frontend:f912896
 
-          image: kbudden/jerney-frontend:31513de
+          image: kbudden/jerney-frontend:f912896
 
           ports:
             - containerPort: 8080
