@@ -159,7 +159,7 @@ jobs:
 
       - name: Deploy manifest
         run: kubectl apply -f k8s/jerney.yaml
-
+       
       - name: Wait for rollouts
         run: |
           kubectl rollout status deployment/jerney-db -n jerney --timeout=180s
