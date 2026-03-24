@@ -150,7 +150,7 @@ jobs:
       - name: Show manifest images
         run: grep -n "image:" k8s/jerney.yaml
 
-      - name: Deploy manifest
+      - name: Deploy manifest      
         run: kubectl apply -f k8s/jerney.yaml
 
       - name: Wait for rollouts
