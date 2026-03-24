@@ -150,3 +150,9 @@ jobs:
           kubectl rollout status deployment/jerney-db -n jerney --timeout=180s
           kubectl rollout status deployment/jerney-backend -n jerney --timeout=180s
           kubectl rollout status deployment/jerney-frontend -n jerney --timeout=180s
+
+
+
+
+
+          
